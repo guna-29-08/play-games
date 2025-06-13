@@ -13,10 +13,9 @@ Welcome to **JavaScript Game Zone** — a fun and interactive collection of mini
 ## 🛠️ Built With:
 - HTML5  
 - CSS3  
-- JavaScript (Vanilla)
+- JavaScript
 
 ## 💡 Features:
 - Easy-to-understand code structure  
-- Responsive layouts  
 - Simple animations and game logic  
 - Educational for beginners to understand DOM manipulation and game logic
