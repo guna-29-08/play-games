@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jumble Word Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f0f0f0;
+            padding-top: 50px;
+        }
+
+        h2 {
+            font-size: 28px;
+        }
+
+        .jumble-word {
+            font-size: 36px;
+            color: #2980b9;
+            margin: 20px 0;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1e8449;
+        }
+
+        .message {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Jumble Word Game</h2>
+    <div class="jumble-word" id="wordDisplay">Loading...</div>
+    <input type="text" id="userInput" placeholder="Type your guess here">
+    <br>
+    <button onclick="checkWord()">Submit</button>
+    <button onclick="newWord()">New Word</button>
+    <div class="message" id="message"></div>
+
+    <script>
+        const words = ["apple", "banana", "orange", "mango", "watermelon", "grape", "strawberry", "blueberry", "kiwi", "avocado", "pineapple", "cherry", "lemon", "apricot", "plum", "papaya", "fig", "pomegranate", "guava", "cantaloupe"];
+        let currentWord = "";
+
+        function jumble(word) {
+            return word.split("").sort(() => Math.random() - 0.5).join("");
+        }
+
+        function newWord() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            document.getElementById("wordDisplay").textContent = jumble(currentWord);
+            document.getElementById("userInput").value = "";
+            document.getElementById("message").textContent = "";
+        }
+
+        function checkWord() {
+            const userGuess = document.getElementById("userInput").value.toLowerCase();
+            if (userGuess === currentWord) {
+                document.getElementById("message").textContent = "Correct!";
+            } else {
+                document.getElementById("message").textContent = "Try again!";
+            }
+        }
+
+        newWord();
+    </script>
+
+</body>
+
+</html>

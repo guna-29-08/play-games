@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Hangman with Drawing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        #word {
+            font-size: 32px;
+            letter-spacing: 10px;
+        }
+
+        #wrong-letters {
+            color: red;
+            margin-top: 10px;
+        }
+
+        #message {
+            font-size: 24px;
+            margin-top: 20px;
+            color: green;
+        }
+
+        canvas {
+            border: 1px solid #333;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Hangman Game</h1>
+    <h4 id="riddle"></h4>
+    <div id="word">_ _ _</div>
+    <div id="message"></div>
+    <div id="wrong-letters">Wrong Guess: </div>
+    <canvas id="hangman" width="200" height="250"></canvas> <br /> <br />
+    <button onclick="location.reload();"
+        style="width: 150px; height: 30px;background-color:green;color:white;border:none">Next</button>
+
+
+    <script>
+        const fruitRiddles = [
+            { question: "I'm tropical, spiky outside, sweet inside, and I wear a crown. Who am I?", answer: "Pineapple" },
+            { question: "I’m soft and mushy, used in shakes, and monkeys love me. Who am I?", answer: "Banana" },
+            { question: "I’m often confused with a vegetable. Red and juicy, I go well in salads. Who am I?", answer: "Tomato" },
+            { question: "I’m citrus, my name is also a color. Who am I?", answer: "Orange" },
+            { question: "I'm small, blue, and often found in muffins. Who am I?", answer: "Blueberry" },
+            { question: "I'm fuzzy outside, green inside, with tiny black seeds. Who am I?", answer: "Kiwi" },
+            { question: "I'm hard outside, sweet red inside, and have black seeds. Best in summer. Who am I?", answer: "Watermelon" },
+            { question: "I’m tiny, often dried, and used in Christmas cakes. Who am I?", answer: "Raisin" },
+            { question: "I'm red and heart-shaped, often eaten with cream. Who am I?", answer: "Strawberry" },
+            { question: "I’m tropical, orange inside, and good for digestion. Who am I?", answer: "Papaya" },
+            { question: "I’m orange, long, and rabbits love me. Who am I?", answer: "Carrot" },
+            { question: "I’m green, have a long stalk, and kids don’t like me much. Who am I?", answer: "Broccoli" },
+            { question: "I’m round, come in red or white, and make you cry. Who am I?", answer: "Onion" },
+            { question: "I’m leafy and green, often used in salads. Who am I?", answer: "Lettuce" },
+            { question: "I'm green on the outside and have peas inside. Who am I?", answer: "Peas" },
+            { question: "I’m purple on the outside and soft when cooked. Who am I?", answer: "Brinjal" },
+            { question: "I’m red and used to make sauces. Some think I’m a fruit. Who am I?", answer: "Tomato" },
+            { question: "I’m spicy, small, and come in green or red. Who am I?", answer: "Chilli" },
+            { question: "I’m used in fries and chips. Who am I?", answer: "Potato" },
+            { question: "I’m green, slimy when cooked, and used in sambhar. Who am I?", answer: "Ladiesfinger" },
+            { question: "I am played with a black and white board and small soldiers. You need to protect your king. Who am I?", answer: "Chess" },
+            { question: "You kick me to score goals. I’m played in a big field with 11 players on each team. Who am I?", answer: "Football" },
+            { question: "I use a bat and ball. I can be played in stadiums or streets. People love to hit sixes. Who am I?", answer: "Cricket" },
+            { question: "I am a board game with ladders to climb and snakes to fall down. Who am I?", answer: "SnakesandLadders" },
+            { question: "You roll dice and buy places. You can even go to jail in me! Who am I?", answer: "Monopoly" },
+            { question: "I am a video game where players build, mine, and survive in blocky worlds. Who am I?", answer: "Minecraft" },
+            { question: "In me, players wear bright jerseys and shoot the ball into a hoop. Who am I?", answer: "Basketball" },
+            { question: "I am a mobile game with colorful candies. You match three of the same kind. Who am I?", answer: "Candy Crush" },
+            { question: "I’m a fast card game where players match colors or numbers. You shout my name to win. Who am I?", answer: "UNO" },
+            { question: "I’m a running game on mobile where you collect coins and avoid trains. Who am I?", answer: "Subway Surfers" },
+            { question: "He comes from a poor village and becomes a top officer using just his brain and hard work. He always says 'I’m not a rowdy'. Which movie is this?", answer: "Sivakasi" },
+            { question: "He’s a common man who starts a low-cost airline to help poor people fly. A true story turned into a powerful film. Which movie?", answer: "Sooraraipottru" },
+            { question: "A football coach trains a women’s team and teaches them to fight both on and off the field. Which movie is this?", answer: "Bigil" },
+            { question: "A man becomes a don after growing up in the streets of North Chennai. The story moves from childhood to gangster life. Which movie?", answer: "Vadachennai" },
+            { question: "He is very silent but dangerous. When someone touches his family, he becomes a lion. A fiery film with action and mass scenes. Which movie?", answer: "Leo" },
+            { question: "A delivery guy falls in love but also carries the pain of losing his mother. A light-hearted emotional journey. Which movie?", answer: "Thiruchitrambalam" },
+            { question: "A man who never speaks loud becomes a hero for villagers by standing up against powerful people. Based on caste injustice. Which movie?", answer: "Karnan" },
+            { question: "A soldier gets love letters from a girl he has never met. He travels across places during war to find her. Their story is filled with secrets and emotions. Which movie is this?", answer: "Seetharamam" },
+            { question: "He’s a caring son who lives happily with his mother. But when he meets his father after many years, his life and love take a big turn. Which movie is this?", answer: "M.kumaransonofmahalakshmi" },
+            { question: "A rich city boy falls in love with a village girl. To win her brother’s respect, he leaves his comforts and works hard like a farmer. Which movie is this?", answer: "Unakkumenakkum" },
+            { question: "I act in big action movies. People call me Thalapathy. Who am I?", answer: "Vijay" },
+            { question: "I’ve played intense roles with natural acting. I'm also a great singer. Who am I?", answer: "Dhanush" },
+            { question: "I’ve acted in science fiction, action, and emotional roles. My voice is powerful. Who am I?", answer: "Suriya" },
+            { question: "I act in Tamil and Malayalam films. I’m known for romantic and poetic characters. Who am I?", answer: "Dulquersalmaan" },
+            { question: "My movies are fun, youthful, and family-friendly. I started as a TV anchor. Who am I?", answer: "Sivakarthikeyan" },
+            { question: "I’ve transformed myself physically for many roles. I’m known for intense acting. Who am I?", answer: "Vikram" },
+            { question: "I made people laugh and think with my first film. I'm a new-gen hero. Who am I?", answer: "Pradeepranganathan" },
+            { question: "I come from a political family but made my name in emotional roles. Who am I?", answer: "Udhayanidhistalin" },
+            { question: "I became popular with my debut love story. I prefer soft, emotional characters. Who am I?", answer: "Ravikrishna" },
+
+        ];
+
+        // Pick a random riddle
+        const riddleObj = fruitRiddles[Math.floor(Math.random() * fruitRiddles.length)];
+        const word = riddleObj.answer.toLowerCase();
+
+        let correctLetters = [];
+        let wrongLetters = [];
+
+        const wordEl = document.getElementById("word");
+        const wrongEl = document.getElementById("wrong-letters");
+        const messageEl = document.getElementById("message");
+        const riddleEl = document.getElementById("riddle");
+        const canvas = document.getElementById("hangman");
+        const ctx = canvas.getContext("2d");
+
+        // Show the riddle clue
+        riddleEl.textContent = riddleObj.question;
+
+        function updateWord() {
+            let display = "";
+            for (let letter of word) {
+                if (correctLetters.includes(letter)) {
+                    display += letter + " ";
+                } else {
+                    display += "_ ";
+                }
+            }
+            wordEl.textContent = display.trim();
+
+            if (!display.includes("_")) {
+                messageEl.textContent = "You Won!";
+                document.removeEventListener("keydown", handleKey);
+            }
+        }
+
+        function updateWrongLetters() {
+            wrongEl.textContent = "Wrong Letters: " + wrongLetters.join(" ");
+            drawHangman(wrongLetters.length);
+            if (wrongLetters.length === 6) {
+                messageEl.textContent = `You Lost! The word was: ${word}`;
+                document.removeEventListener("keydown", handleKey);
+            }
+        }
+
+        function drawHangman(step) {
+            ctx.lineWidth = 2;
+            if (step >= 1) {
+                ctx.moveTo(10, 240); ctx.lineTo(190, 240); ctx.stroke();
+            }
+            if (step >= 2) {
+                ctx.moveTo(50, 240); ctx.lineTo(50, 20); ctx.lineTo(130, 20); ctx.lineTo(130, 40); ctx.stroke();
+            }
+            if (step >= 3) {
+                ctx.beginPath(); ctx.arc(130, 60, 20, 0, Math.PI * 2); ctx.stroke();
+            }
+            if (step >= 4) {
+                ctx.moveTo(130, 80); ctx.lineTo(130, 140); ctx.stroke();
+            }
+            if (step >= 5) {
+                ctx.moveTo(130, 100); ctx.lineTo(110, 120); ctx.stroke();
+            }
+            if (step >= 6) {
+                ctx.moveTo(130, 100); ctx.lineTo(150, 120); ctx.stroke();
+                ctx.moveTo(130, 140); ctx.lineTo(110, 180); ctx.stroke();
+                ctx.moveTo(130, 140); ctx.lineTo(150, 180); ctx.stroke();
+            }
+        }
+
+        function handleKey(e) {
+            const letter = e.key.toLowerCase();
+            if (!letter.match(/[a-z]/) || letter.length !== 1)
+                return;
+
+            if (word.includes(letter)) {
+                if (!correctLetters.includes(letter)) {
+                    correctLetters.push(letter);
+                    updateWord();
+                }
+            } else {
+                if (!wrongLetters.includes(letter)) {
+                    wrongLetters.push(letter);
+                    updateWrongLetters();
+                }
+            }
+        }
+
+        updateWord();
+        document.addEventListener("keydown", handleKey);
+    </script>
+
+</body>
+
+</html>

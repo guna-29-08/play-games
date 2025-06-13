@@ -1,0 +1,167 @@
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.Wrapper {
+  width: 450px;
+  background: #fff;
+  padding: 30px;
+}
+
+.Wrapper .input-data input {
+  height: 40px;
+  width: 100px;
+  position: relative;
+}
+
+.Wrapper .input-data input {
+  height: 30px;
+  width: 250px;
+  margin-left: 100px;
+  margin-top: 5px;
+  border: none;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+.input-data input:focus ~ label,
+.input-data input:focus ~ label {
+  transform: transition(-20px);
+}
+
+.Wrapper .input-data label {
+  position: absolute;
+  margin-top: -30px;
+  margin-left: 30px;
+  left: 0;
+  color: grey;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.Wrap {
+  width: 450px;
+  background: #fff;
+  padding: 30px;
+}
+
+.Wrap .input-mail input {
+  height: 40px;
+  width: 100px;
+  position: relative;
+}
+
+.Wrap .input-mail input {
+  height: 30px;
+  width: 250px;
+  margin-left: 100px;
+  bottom: 90px;
+  left: 340px;
+  top: -93px;
+  border: none;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+.input-mail input:focus ~ label,
+.input-mail input:focus ~ label {
+  transform: transition(-20px);
+}
+
+.Wrap .input-mail label {
+  position: absolute;
+  margin-top: -30px;
+  margin-left: 30px;
+  left: 0;
+  color: grey;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.Subject {
+  width: 450px;
+  background: #fff;
+  padding: 30px;
+}
+
+.Subject .input-subject input {
+  height: 40px;
+  width: 100px;
+  position: relative;
+}
+
+.Subject .input-subject input {
+  height: 30px;
+  width: 250px;
+  margin-left: 100px;
+  bottom: 188px;
+  margin-left: 800px;
+  border: none;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+.input-subject input:focus ~ label,
+.input-subject input:focus ~ label {
+  transform: transition(-20px);
+}
+
+.Subject .input-subject label {
+  position: absolute;
+  margin-top: -30px;
+  margin-left: 30px;
+  left: 0;
+  color: grey;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.Message {
+  width: 450px;
+  background: #fff;
+  padding: 30px;
+}
+
+.Message .input-message input {
+  height: 40px;
+  width: 100px;
+  position: relative;
+}
+
+.Message .input-message input {
+  height: 30px;
+  width: 1000px;
+  margin-left: 100px;
+  bottom: 90px;
+  border: none;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+  outline: none;
+}
+
+.input-message input:focus ~ label,
+.input-message input:focus ~ label {
+  transform: transition(-20px);
+}
+
+.Message .input-message label {
+  position: absolute;
+  margin-top: -30px;
+  margin-left: 30px;
+  left: 0;
+  color: grey;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+#button {
+  margin-top: -100px;
+}
